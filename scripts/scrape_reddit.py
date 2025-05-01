@@ -8,9 +8,9 @@ import random
 import config
 
 # Settings
-SUBREDDITS = ['aitah', 'tifu']
+SUBREDDITS = ['aitah']
 MIN_UPVOTES = 200
-TARGET_TOTAL_NEW_POSTS = 1
+TARGET_TOTAL_NEW_POSTS = 20
 INTERNAL_FETCH_LIMIT = 500  # Scan up to 100 per subreddit per attempt
 
 # Paths
@@ -21,11 +21,12 @@ def load_existing_post_ids():
     existing_ids = set()
 
     paths_to_check = [
-        os.path.join(ROOT_DIR, 'posts'),
-        os.path.join(ROOT_DIR, 'processed', 'posts')
+        os.path.join(ROOT_DIR, "data", 'posts'),
+        os.path.join(ROOT_DIR, "data", 'processed', 'scripts')
     ]
 
     for path in paths_to_check:
+        print(path)
         if not os.path.exists(path):
             continue
 
