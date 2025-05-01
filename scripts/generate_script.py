@@ -14,7 +14,6 @@ MAX_POSTS    = 100  # Max stories to process per run
 # ─── Set your API key here ─────────────────────────────────────────────────────
 openai.api_key = os.getenv("OPENAI_API_KEY")
 # OR directly for testing (make sure not to leak):
-openai.api_key = "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"
 
 # ─── GPT Helper ────────────────────────────────────────────────────────────────
 def gpt_rewrite_story(selftext: str) -> str:

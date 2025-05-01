@@ -1,132 +1,201 @@
 # scripts/text_to_speech.py
-"""
-Generate MP3 voice-overs (and word-level timestamp JSON) from rewritten
-Reddit scripts.
 
-• Supports **ElevenLabs** (high-quality, Adam voice, timestamp JSON)
-• Supports **gTTS** (offline / free fallback, no timestamps)
-• Speeds audio up with ffmpeg (pitch-correct)
-• After success moves the processed scripts_*.json → data/processed/scripts/
-
-Folder layout it expects:
-
-data/
- ├─ scripts/               ← ready-to-voice scripts_*.json
- ├─ processed/scripts/     ← auto-moved after voicing
- ├─ audio/                 ← .mp3 (and .json timestamps)
- └─ video/ …
-"""
-import os, json, time, shutil, subprocess, requests
-from pathlib import Path
+import os
+import json
+import time
+import requests
 from gtts import gTTS
-import base64
-import requests, json
-from pathlib import Path
-
-# ─── Config ────────────────────────────────────────────────────────────────────
-ROOT        = Path(__file__).resolve().parents[1]
-SCRIPT_DIR  = ROOT / "data" / "scripts"
-PROC_DIR    = ROOT / "data" / "processed" / "scripts"
-AUDIO_DIR   = ROOT / "data" / "audio"
-AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+import shutil
+import subprocess
+import librosa
 
 
-USE_ELEVEN  = True                      # False → gTTS
-SPEED_UP    = 1.10                      # 10 % faster (1.0 = off)
+os.environ["PATH"] = "/opt/homebrew/bin:" + os.environ["PATH"]
 
-# ElevenLabs
-EL_KEY      = "sk_a6d7314836f60c4c0e217a9e466cd3ec6aed63da2d181335"
-VOICE_ID    = "pNInz6obpgDQGcFmaJgB"    # “Adam” voice
-HEADERS     = {"xi-api-key": EL_KEY, "Content-Type": "application/json"}
+# ─── Configuration ─────────────────────────────────────────────────────────────
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPTS_DIR = os.path.join(ROOT_DIR, 'data', 'scripts')
+AUDIO_DIR = os.path.join(ROOT_DIR, 'data', 'audio')
+MAX_VOICES = 10  # Number of scripts to process per run
+USE_ELEVENLABS = True  # Toggle between ElevenLabs and gTTS
 
-HEADERS  = {"xi-api-key": EL_KEY, "Content-Type": "application/json"}
-VOICE_ID = "EXAVITQu4vr4xnSDxMaL"
+# ElevenLabs settings
 
+ELEVENLABS_VOICE_ID = "pNInz6obpgDQGcFmaJgB"  # 'Adam' voice (default ID for Adam)
 
-# ─── Helpers ───────────────────────────────────────────────────────────────────
-def save_elevenlabs(text: str, out_mp3: Path):
-    """Fetch MP3 + word-timestamps JSON from ElevenLabs in one call."""
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}/stream"
+# ─── Setup folders ─────────────────────────────────────────────────────────────
+os.makedirs(AUDIO_DIR, exist_ok=True)
 
+# ─── ElevenLabs Voiceover ───────────────────────────────────────────────────────
+def generate_voice_elevenlabs(text, filename):
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{ELEVENLABS_VOICE_ID}"
+    headers = {
+        "xi-api-key": ELEVENLABS_API_KEY,
+        "Content-Type": "application/json"
+    }
     payload = {
         "text": text,
-        "model_id": "eleven_multilingual_v2",
-        "voice_settings": {"stability": 0.4, "similarity_boost": 0.75},
-        "output_format": "json",     # <-- ask for JSON wrapper
-        "timestamps": "word"         # <-- include word-level timings
+        "voice_settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75
+        }
     }
 
-    resp = requests.post(url, headers=HEADERS, json=payload)
-    resp.raise_for_status()
-    blob = resp.json()              # { "audio": "<base64…>", "words":[…] }
+    response = requests.post(url, headers=headers, json=payload)
 
-    # ---- save MP3 ----
-    audio_bytes = base64.b64decode(blob["audio"])
-    with out_mp3.open("wb") as f:
-        f.write(audio_bytes)
-
-    # ---- save timestamps JSON (if present) ----
-    words = blob.get("words") or blob.get("alignment", {}).get("words")
-    if words:
-        out_json = out_mp3.with_suffix(".json")
-        out_json.write_text(json.dumps(words, indent=2))
+    if response.status_code == 200:
+        out_path = os.path.join(AUDIO_DIR, filename)
+        with open(out_path, "wb") as f:
+            f.write(response.content)
+        print(f"[Saved] {filename}")
     else:
-        print(f"[WARN] ElevenLabs returned no word timestamps for {out_mp3.stem}")
+        print(f"[ERROR] Failed to generate voice with ElevenLabs: {response.status_code}, {response.text}")
 
-def save_gtts(text: str, out_mp3: Path):
-    tts = gTTS(text, lang="en")
-    tts.save(str(out_mp3))
+# ─── gTTS Voiceover (Free) ───────────────────────────────────────────────────────
+def generate_voice_gtts(text, filename):
+    try:
+        tts = gTTS(text, lang='en')
+        out_path = os.path.join(AUDIO_DIR, filename)
+        tts.save(out_path)
+        print(f"[Saved] {filename}")
+    except Exception as e:
+        print(f"[ERROR] gTTS failed: {e}")
 
-def speed_up_audio(mp3_path: Path, factor: float = 1.10):
-    if factor == 1.0:
+def speed_up_audio(filepath, speed_factor=1.28):
+    temp_path = filepath.replace(".mp3", "_temp.mp3")
+    ffmpeg_path = "/opt/homebrew/bin/ffmpeg"  # OR whatever `which ffmpeg` gives you
+
+    command = [
+        ffmpeg_path,
+        "-i", filepath,
+        "-filter:a", f"atempo={speed_factor}",
+        "-y",
+        temp_path
+    ]
+
+    try:
+        subprocess.run(command, check=True)
+        os.replace(temp_path, filepath)
+        print(f"[Adjusted Speed] {filepath}")
+    except subprocess.CalledProcessError:
+        print(f"[ERROR] Failed to adjust speed for {filepath}")
+
+def convert_to_wav(mp3_path: str) -> str:
+    """
+    Converts MP3 to clean 16kHz mono WAV file for WhisperX.
+    Returns the new WAV file path.
+    """
+    wav_path = mp3_path.replace(".mp3", ".wav")
+    ffmpeg_cmd = [
+        "ffmpeg",
+        "-y",
+        "-i", mp3_path,
+        "-ar", "16000",
+        "-ac", "1",
+        wav_path
+    ]
+    try:
+        subprocess.run(ffmpeg_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return wav_path
+    except subprocess.CalledProcessError:
+        print(f"[ERROR] Failed to convert {mp3_path} to WAV.")
+        return None
+
+
+def make_subtitle_json(audio_path, original_text):
+    """
+    Aligns spoken audio to text using WhisperX and saves word-level timing JSON
+    next to the MP3 file (e.g., 1ehlrdd.json for 1ehlrdd.mp3)
+    """
+    import whisperx
+    import torch
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    try:
+        # Convert MP3 to clean WAV first
+        wav_path = convert_to_wav(audio_path)
+        if not wav_path:
+            return False
+
+        print(f"[INFO] WhisperX aligning using WAV: {wav_path}")
+        # Load ASR and alignment models
+        asr_model = whisperx.load_model("large-v3", device=device, compute_type="float32")
+        align_model, metadata = whisperx.load_align_model(language_code="en", device=device)
+
+        # Dummy segmentation to force alignment of full text
+        duration = librosa.get_duration(path=wav_path)
+        segments = [{"text": original_text, "start": 0, "end": duration}]
+        alignment = whisperx.align(segments, align_model, metadata, wav_path, device)
+
+        # Save word-level timestamp JSON
+        word_data = alignment.get("word_segments", [])
+        json_path = audio_path.replace(".mp3", ".json")
+        with open(json_path, "w") as f:
+            json.dump(word_data, f, indent=2)
+
+        print(f"[Saved] Subtitle JSON → {json_path}")
+        return True
+
+    except Exception as e:
+        print(f"[ERROR] WhisperX alignment failed: {e}")
+        return False
+
+# ─── Main voiceover generator ────────────────────────────────────────────────────
+def generate_voiceovers():
+    scripts_files = sorted(os.listdir(SCRIPTS_DIR))
+    if not scripts_files:
+        print("[ERROR] No scripts found to process.")
         return
-    temp = mp3_path.with_suffix(".tmp.mp3")
-    cmd  = ["ffmpeg", "-y", "-i", str(mp3_path),
-            "-filter:a", f"atempo={factor:.3f}", str(temp)]
-    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-    temp.replace(mp3_path)
 
-# ─── Main routine ──────────────────────────────────────────────────────────────
-def voice_batch(max_scripts: int = 10):
-    if not any(SCRIPT_DIR.glob("scripts_*.json")):
-        print("[!]  no script files to voice")
-        return
+    # Only process the first available scripts_*.json
+    for filename in scripts_files:
+        if filename.startswith('scripts_') and filename.endswith('.json'):
+            input_path = os.path.join(SCRIPTS_DIR, filename)
+            with open(input_path, 'r') as f:
+                scripts = json.load(f)
 
-    for script_file in sorted(SCRIPT_DIR.glob("scripts_*.json")):
-        data = json.loads(script_file.read_text())
-        processed = 0
+            print(f"\n[Processing] {filename} with {len(scripts)} script(s)...")
 
-        for item in data:
-            if processed >= max_scripts:
-                break
-            post_id = item["id"]
-            text    = item["script"].strip()
-            if len(text) < 10:
-                continue
+            count = 0
+            for item in scripts:
+                if count >= MAX_VOICES:
+                    break
 
-            mp3_path = AUDIO_DIR / f"{post_id}.mp3"
-            if mp3_path.exists():
-                print(f"[-]  {post_id} already voiced")
-                continue
+                text = item.get("script", "").strip()
+                post_id = item.get("id", "unknown")
+                audio_filename = f"{post_id}.mp3"
 
-            print(f"[+]  voicing {post_id} …")
-            try:
-                if USE_ELEVEN:
-                    save_elevenlabs(text, mp3_path)
+                if not text:
+                    print(f"[Skipping] Empty text for post {post_id}")
+                    continue
+
+                if USE_ELEVENLABS:
+                    generate_voice_elevenlabs(text, audio_filename)
                 else:
-                    save_gtts(text, mp3_path)
+                    generate_voice_gtts(text, audio_filename)
 
-                speed_up_audio(mp3_path, SPEED_UP)
-                processed += 1
-                time.sleep(1)      # gentle on API
-            except Exception as e:
-                print(f"[ERR] {post_id}: {e}")
+                count += 1
+                speed_up_audio(os.path.join(AUDIO_DIR, audio_filename))
+                try:
+                    make_subtitle_json(os.path.join(AUDIO_DIR, audio_filename), text)
+                except Exception as e:
+                    print(f"Booboo {e}")
 
-        # move script file whether fully or partially processed
-        PROC_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.move(script_file, PROC_DIR / script_file.name)
-        print(f"[⮕]  moved {script_file.name} to processed/")
-        break                 # only 1 JSON per run to save quota
+                time.sleep(1.5)  # gentle delay
+
+            print(f"\n[Completed] {count} voiceovers generated.\n")
+
+            # Move processed JSON into /processed/scripts/
+            processed_dir = os.path.join(ROOT_DIR, 'data', 'processed', 'scripts')
+            os.makedirs(processed_dir, exist_ok=True)
+
+            dest_path = os.path.join(processed_dir, filename)
+            shutil.move(input_path, dest_path)
+
+            print(f"[Moved] {filename} to {processed_dir}")
+
+            break  # Process only one JSON per run
 
 if __name__ == "__main__":
-    voice_batch()
+    generate_voiceovers()
