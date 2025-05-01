@@ -1,0 +1,944 @@
+[
+  {
+    "word": "I'm",
+    "start": 0.08,
+    "end": 0.18,
+    "score": 0.968
+  },
+  {
+    "word": "a",
+    "start": 0.2,
+    "end": 0.44,
+    "score": 0.245
+  },
+  {
+    "word": "24-year-old",
+    "start": 0.46,
+    "end": 0.86,
+    "score": 0.67
+  },
+  {
+    "word": "woman,",
+    "start": 0.9,
+    "end": 1.121,
+    "score": 0.86
+  },
+  {
+    "word": "and",
+    "start": 1.181,
+    "end": 1.281,
+    "score": 0.723
+  },
+  {
+    "word": "I",
+    "start": 1.341,
+    "end": 1.401,
+    "score": 0.664
+  },
+  {
+    "word": "recently",
+    "start": 1.441,
+    "end": 1.781,
+    "score": 0.832
+  },
+  {
+    "word": "had",
+    "start": 1.821,
+    "end": 1.921,
+    "score": 0.826
+  },
+  {
+    "word": "a",
+    "start": 1.961,
+    "end": 2.001,
+    "score": 0.5
+  },
+  {
+    "word": "major",
+    "start": 2.041,
+    "end": 2.341,
+    "score": 0.862
+  },
+  {
+    "word": "argument",
+    "start": 2.421,
+    "end": 2.741,
+    "score": 0.907
+  },
+  {
+    "word": "with",
+    "start": 2.761,
+    "end": 2.881,
+    "score": 0.75
+  },
+  {
+    "word": "my",
+    "start": 2.941,
+    "end": 3.021,
+    "score": 0.831
+  },
+  {
+    "word": "30-year-old",
+    "start": 3.041,
+    "end": 3.582,
+    "score": 0.715
+  },
+  {
+    "word": "husband",
+    "start": 3.642,
+    "end": 3.962,
+    "score": 0.775
+  },
+  {
+    "word": "over",
+    "start": 4.042,
+    "end": 4.182,
+    "score": 0.752
+  },
+  {
+    "word": "his",
+    "start": 4.222,
+    "end": 4.302,
+    "score": 0.833
+  },
+  {
+    "word": "misplaced",
+    "start": 4.342,
+    "end": 4.742,
+    "score": 0.826
+  },
+  {
+    "word": "phone.",
+    "start": 4.782,
+    "end": 5.062,
+    "score": 0.906
+  },
+  {
+    "word": "While",
+    "start": 5.583,
+    "end": 5.723,
+    "score": 0.889
+  },
+  {
+    "word": "I",
+    "start": 5.743,
+    "end": 5.783,
+    "score": 0.548
+  },
+  {
+    "word": "was",
+    "start": 5.803,
+    "end": 5.883,
+    "score": 0.895
+  },
+  {
+    "word": "in",
+    "start": 5.923,
+    "end": 5.963,
+    "score": 1.0
+  },
+  {
+    "word": "the",
+    "start": 6.003,
+    "end": 6.063,
+    "score": 0.999
+  },
+  {
+    "word": "shower,",
+    "start": 6.103,
+    "end": 6.383,
+    "score": 0.936
+  },
+  {
+    "word": "he",
+    "start": 6.423,
+    "end": 6.503,
+    "score": 0.756
+  },
+  {
+    "word": "was",
+    "start": 6.543,
+    "end": 6.643,
+    "score": 0.868
+  },
+  {
+    "word": "fuming,",
+    "start": 6.743,
+    "end": 7.164,
+    "score": 0.796
+  },
+  {
+    "word": "demanding",
+    "start": 7.244,
+    "end": 7.664,
+    "score": 0.786
+  },
+  {
+    "word": "to",
+    "start": 7.684,
+    "end": 7.744,
+    "score": 0.75
+  },
+  {
+    "word": "know",
+    "start": 7.784,
+    "end": 7.924,
+    "score": 0.79
+  },
+  {
+    "word": "where",
+    "start": 7.964,
+    "end": 8.104,
+    "score": 0.877
+  },
+  {
+    "word": "it",
+    "start": 8.124,
+    "end": 8.184,
+    "score": 0.75
+  },
+  {
+    "word": "was.",
+    "start": 8.224,
+    "end": 8.484,
+    "score": 0.821
+  },
+  {
+    "word": "When",
+    "start": 8.964,
+    "end": 9.064,
+    "score": 0.885
+  },
+  {
+    "word": "I",
+    "start": 9.084,
+    "end": 9.145,
+    "score": 0.352
+  },
+  {
+    "word": "came",
+    "start": 9.165,
+    "end": 9.325,
+    "score": 0.835
+  },
+  {
+    "word": "out,",
+    "start": 9.405,
+    "end": 9.505,
+    "score": 0.929
+  },
+  {
+    "word": "he",
+    "start": 9.545,
+    "end": 9.605,
+    "score": 0.887
+  },
+  {
+    "word": "was",
+    "start": 9.645,
+    "end": 9.725,
+    "score": 0.834
+  },
+  {
+    "word": "blocking",
+    "start": 9.765,
+    "end": 10.045,
+    "score": 0.899
+  },
+  {
+    "word": "the",
+    "start": 10.065,
+    "end": 10.145,
+    "score": 0.833
+  },
+  {
+    "word": "door,",
+    "start": 10.165,
+    "end": 10.385,
+    "score": 0.654
+  },
+  {
+    "word": "and",
+    "start": 10.425,
+    "end": 10.505,
+    "score": 0.874
+  },
+  {
+    "word": "after",
+    "start": 10.565,
+    "end": 10.725,
+    "score": 0.834
+  },
+  {
+    "word": "I",
+    "start": 10.765,
+    "end": 10.825,
+    "score": 0.666
+  },
+  {
+    "word": "told",
+    "start": 10.845,
+    "end": 10.965,
+    "score": 0.775
+  },
+  {
+    "word": "him",
+    "start": 10.985,
+    "end": 11.065,
+    "score": 0.812
+  },
+  {
+    "word": "to",
+    "start": 11.085,
+    "end": 11.145,
+    "score": 0.754
+  },
+  {
+    "word": "move,",
+    "start": 11.206,
+    "end": 11.406,
+    "score": 0.75
+  },
+  {
+    "word": "he",
+    "start": 11.426,
+    "end": 11.506,
+    "score": 0.843
+  },
+  {
+    "word": "shoved",
+    "start": 11.566,
+    "end": 11.766,
+    "score": 0.917
+  },
+  {
+    "word": "me",
+    "start": 11.786,
+    "end": 11.846,
+    "score": 0.814
+  },
+  {
+    "word": "into",
+    "start": 11.866,
+    "end": 11.986,
+    "score": 0.882
+  },
+  {
+    "word": "the",
+    "start": 12.006,
+    "end": 12.086,
+    "score": 0.833
+  },
+  {
+    "word": "room.",
+    "start": 12.126,
+    "end": 12.346,
+    "score": 0.749
+  },
+  {
+    "word": "I",
+    "start": 12.926,
+    "end": 12.986,
+    "score": 0.666
+  },
+  {
+    "word": "tried",
+    "start": 13.006,
+    "end": 13.166,
+    "score": 0.987
+  },
+  {
+    "word": "to",
+    "start": 13.186,
+    "end": 13.247,
+    "score": 0.748
+  },
+  {
+    "word": "calm",
+    "start": 13.287,
+    "end": 13.447,
+    "score": 0.96
+  },
+  {
+    "word": "him",
+    "start": 13.487,
+    "end": 13.567,
+    "score": 0.852
+  },
+  {
+    "word": "down,",
+    "start": 13.607,
+    "end": 13.827,
+    "score": 0.808
+  },
+  {
+    "word": "but",
+    "start": 13.867,
+    "end": 13.947,
+    "score": 0.834
+  },
+  {
+    "word": "when",
+    "start": 13.967,
+    "end": 14.047,
+    "score": 1.0
+  },
+  {
+    "word": "I",
+    "start": 14.067,
+    "end": 14.127,
+    "score": 0.652
+  },
+  {
+    "word": "refused",
+    "start": 14.167,
+    "end": 14.487,
+    "score": 0.752
+  },
+  {
+    "word": "to",
+    "start": 14.507,
+    "end": 14.567,
+    "score": 0.708
+  },
+  {
+    "word": "hurry",
+    "start": 14.607,
+    "end": 14.827,
+    "score": 0.892
+  },
+  {
+    "word": "up,",
+    "start": 14.887,
+    "end": 14.967,
+    "score": 0.827
+  },
+  {
+    "word": "he",
+    "start": 15.228,
+    "end": 15.288,
+    "score": 0.881
+  },
+  {
+    "word": "hit",
+    "start": 15.308,
+    "end": 15.408,
+    "score": 0.833
+  },
+  {
+    "word": "me",
+    "start": 15.428,
+    "end": 15.488,
+    "score": 0.755
+  },
+  {
+    "word": "on",
+    "start": 15.528,
+    "end": 15.588,
+    "score": 0.755
+  },
+  {
+    "word": "the",
+    "start": 15.608,
+    "end": 15.668,
+    "score": 0.999
+  },
+  {
+    "word": "mouth",
+    "start": 15.708,
+    "end": 15.848,
+    "score": 0.903
+  },
+  {
+    "word": "with",
+    "start": 15.888,
+    "end": 15.968,
+    "score": 1.0
+  },
+  {
+    "word": "the",
+    "start": 15.988,
+    "end": 16.048,
+    "score": 0.898
+  },
+  {
+    "word": "back",
+    "start": 16.088,
+    "end": 16.228,
+    "score": 0.834
+  },
+  {
+    "word": "of",
+    "start": 16.248,
+    "end": 16.288,
+    "score": 0.999
+  },
+  {
+    "word": "his",
+    "start": 16.328,
+    "end": 16.408,
+    "score": 0.833
+  },
+  {
+    "word": "hand,",
+    "start": 16.448,
+    "end": 16.688,
+    "score": 0.766
+  },
+  {
+    "word": "calling",
+    "start": 16.748,
+    "end": 16.988,
+    "score": 0.858
+  },
+  {
+    "word": "it",
+    "start": 17.028,
+    "end": 17.088,
+    "score": 0.732
+  },
+  {
+    "word": "a",
+    "start": 17.128,
+    "end": 17.188,
+    "score": 0.394
+  },
+  {
+    "word": "\u201cwarning",
+    "start": 17.449,
+    "end": 17.769,
+    "score": 0.895
+  },
+  {
+    "word": "tap\u201d",
+    "start": 17.829,
+    "end": 18.069,
+    "score": 0.899
+  },
+  {
+    "word": "because",
+    "start": 18.189,
+    "end": 18.429,
+    "score": 0.839
+  },
+  {
+    "word": "of",
+    "start": 18.449,
+    "end": 18.509,
+    "score": 0.75
+  },
+  {
+    "word": "my",
+    "start": 18.549,
+    "end": 18.729,
+    "score": 0.844
+  },
+  {
+    "word": "\u201cattitude.\u201d",
+    "start": 19.009,
+    "end": 19.43,
+    "score": 0.855
+  },
+  {
+    "word": "I",
+    "start": 20.15,
+    "end": 20.19,
+    "score": 0.999
+  },
+  {
+    "word": "was",
+    "start": 20.23,
+    "end": 20.33,
+    "score": 0.761
+  },
+  {
+    "word": "appalled",
+    "start": 20.37,
+    "end": 20.83,
+    "score": 0.896
+  },
+  {
+    "word": "and",
+    "start": 21.15,
+    "end": 21.23,
+    "score": 0.835
+  },
+  {
+    "word": "left",
+    "start": 21.25,
+    "end": 21.391,
+    "score": 0.702
+  },
+  {
+    "word": "to",
+    "start": 21.411,
+    "end": 21.491,
+    "score": 0.544
+  },
+  {
+    "word": "stay",
+    "start": 21.511,
+    "end": 21.631,
+    "score": 0.754
+  },
+  {
+    "word": "with",
+    "start": 21.651,
+    "end": 21.731,
+    "score": 1.0
+  },
+  {
+    "word": "my",
+    "start": 21.771,
+    "end": 21.871,
+    "score": 0.878
+  },
+  {
+    "word": "mom.",
+    "start": 21.911,
+    "end": 22.191,
+    "score": 0.858
+  },
+  {
+    "word": "The",
+    "start": 22.571,
+    "end": 22.671,
+    "score": 0.766
+  },
+  {
+    "word": "next",
+    "start": 22.711,
+    "end": 22.871,
+    "score": 0.798
+  },
+  {
+    "word": "day,",
+    "start": 22.931,
+    "end": 23.131,
+    "score": 0.711
+  },
+  {
+    "word": "when",
+    "start": 23.191,
+    "end": 23.291,
+    "score": 0.916
+  },
+  {
+    "word": "I",
+    "start": 23.311,
+    "end": 23.352,
+    "score": 0.573
+  },
+  {
+    "word": "went",
+    "start": 23.392,
+    "end": 23.492,
+    "score": 0.882
+  },
+  {
+    "word": "back",
+    "start": 23.532,
+    "end": 23.652,
+    "score": 0.791
+  },
+  {
+    "word": "for",
+    "start": 23.672,
+    "end": 23.772,
+    "score": 0.803
+  },
+  {
+    "word": "some",
+    "start": 23.792,
+    "end": 23.912,
+    "score": 0.818
+  },
+  {
+    "word": "things,",
+    "start": 23.952,
+    "end": 24.192,
+    "score": 0.828
+  },
+  {
+    "word": "he",
+    "start": 24.532,
+    "end": 24.592,
+    "score": 0.779
+  },
+  {
+    "word": "was",
+    "start": 24.632,
+    "end": 24.732,
+    "score": 0.68
+  },
+  {
+    "word": "furious",
+    "start": 24.792,
+    "end": 25.152,
+    "score": 0.762
+  },
+  {
+    "word": "that",
+    "start": 25.172,
+    "end": 25.272,
+    "score": 0.982
+  },
+  {
+    "word": "I",
+    "start": 25.292,
+    "end": 25.332,
+    "score": 0.97
+  },
+  {
+    "word": "called",
+    "start": 25.373,
+    "end": 25.553,
+    "score": 0.914
+  },
+  {
+    "word": "it",
+    "start": 25.573,
+    "end": 25.633,
+    "score": 0.75
+  },
+  {
+    "word": "\u201cabuse.\u201d",
+    "start": 25.773,
+    "end": 26.153,
+    "score": 0.959
+  },
+  {
+    "word": "He",
+    "start": 26.653,
+    "end": 26.733,
+    "score": 0.562
+  },
+  {
+    "word": "even",
+    "start": 26.813,
+    "end": 26.973,
+    "score": 0.785
+  },
+  {
+    "word": "threatened",
+    "start": 26.993,
+    "end": 27.253,
+    "score": 0.858
+  },
+  {
+    "word": "to",
+    "start": 27.273,
+    "end": 27.333,
+    "score": 0.75
+  },
+  {
+    "word": "divorce",
+    "start": 27.393,
+    "end": 27.714,
+    "score": 0.978
+  },
+  {
+    "word": "me",
+    "start": 27.754,
+    "end": 27.814,
+    "score": 0.752
+  },
+  {
+    "word": "if",
+    "start": 27.854,
+    "end": 27.914,
+    "score": 0.95
+  },
+  {
+    "word": "I",
+    "start": 27.954,
+    "end": 28.014,
+    "score": 0.666
+  },
+  {
+    "word": "told",
+    "start": 28.054,
+    "end": 28.254,
+    "score": 0.654
+  },
+  {
+    "word": "anyone,",
+    "start": 28.294,
+    "end": 28.554,
+    "score": 0.914
+  },
+  {
+    "word": "saying",
+    "start": 28.794,
+    "end": 28.974,
+    "score": 0.912
+  },
+  {
+    "word": "I",
+    "start": 29.014,
+    "end": 29.054,
+    "score": 0.51
+  },
+  {
+    "word": "could",
+    "start": 29.074,
+    "end": 29.214,
+    "score": 0.812
+  },
+  {
+    "word": "ruin",
+    "start": 29.254,
+    "end": 29.475,
+    "score": 0.663
+  },
+  {
+    "word": "his",
+    "start": 29.515,
+    "end": 29.615,
+    "score": 0.783
+  },
+  {
+    "word": "career.",
+    "start": 29.655,
+    "end": 29.995,
+    "score": 0.75
+  },
+  {
+    "word": "I",
+    "start": 30.535,
+    "end": 30.575,
+    "score": 0.891
+  },
+  {
+    "word": "know",
+    "start": 30.615,
+    "end": 30.755,
+    "score": 0.834
+  },
+  {
+    "word": "he",
+    "start": 30.795,
+    "end": 30.855,
+    "score": 0.75
+  },
+  {
+    "word": "didn't",
+    "start": 30.895,
+    "end": 31.075,
+    "score": 0.912
+  },
+  {
+    "word": "physically",
+    "start": 31.175,
+    "end": 31.496,
+    "score": 0.942
+  },
+  {
+    "word": "hurt",
+    "start": 31.536,
+    "end": 31.696,
+    "score": 0.892
+  },
+  {
+    "word": "me,",
+    "start": 31.736,
+    "end": 31.836,
+    "score": 0.471
+  },
+  {
+    "word": "but",
+    "start": 31.876,
+    "end": 31.956,
+    "score": 0.842
+  },
+  {
+    "word": "I",
+    "start": 31.976,
+    "end": 32.036,
+    "score": 0.391
+  },
+  {
+    "word": "feel",
+    "start": 32.056,
+    "end": 32.216,
+    "score": 0.879
+  },
+  {
+    "word": "deeply",
+    "start": 32.276,
+    "end": 32.556,
+    "score": 0.839
+  },
+  {
+    "word": "violated.",
+    "start": 32.616,
+    "end": 33.116,
+    "score": 0.922
+  },
+  {
+    "word": "AITAH",
+    "start": 33.557,
+    "end": 33.777,
+    "score": 0.685
+  },
+  {
+    "word": "for",
+    "start": 33.817,
+    "end": 33.897,
+    "score": 0.94
+  },
+  {
+    "word": "saying",
+    "start": 33.917,
+    "end": 34.077,
+    "score": 0.919
+  },
+  {
+    "word": "it",
+    "start": 34.117,
+    "end": 34.157,
+    "score": 1.0
+  },
+  {
+    "word": "was",
+    "start": 34.197,
+    "end": 34.277,
+    "score": 0.835
+  },
+  {
+    "word": "abuse",
+    "start": 34.317,
+    "end": 34.637,
+    "score": 0.969
+  },
+  {
+    "word": "and",
+    "start": 34.677,
+    "end": 34.737,
+    "score": 1.0
+  },
+  {
+    "word": "potentially",
+    "start": 34.757,
+    "end": 35.157,
+    "score": 0.809
+  },
+  {
+    "word": "jeopardizing",
+    "start": 35.197,
+    "end": 35.638,
+    "score": 0.898
+  },
+  {
+    "word": "his",
+    "start": 35.658,
+    "end": 35.738,
+    "score": 0.84
+  },
+  {
+    "word": "career?",
+    "start": 35.778,
+    "end": 36.018,
+    "score": 0.889
+  }
+]
