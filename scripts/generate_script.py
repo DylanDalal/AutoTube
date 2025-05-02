@@ -12,7 +12,6 @@ SCRIPTS_DIR  = os.path.join(ROOT_DIR, "data", 'scripts')
 MAX_POSTS    = 100  # Max stories to process per run
 
 # openai.api_key = os.getenv("OPENAI_API_KEY")
-openai.api_key = "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"
 
 # ─── GPT Helper ────────────────────────────────────────────────────────────────
 def gpt_rewrite_story(selftext: str) -> str:
