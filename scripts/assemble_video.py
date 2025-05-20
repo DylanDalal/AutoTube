@@ -7,7 +7,6 @@ import pyphen
 from PIL import Image, ImageDraw, ImageFont
 import random
 
-from matplotlib.pyplot import title
 from moviepy import AudioFileClip, CompositeVideoClip, ImageClip, VideoFileClip, vfx, TextClip, ColorClip, clips_array
 from moviepy.video.fx import Crop, MultiplySpeed
 
@@ -31,6 +30,15 @@ def group_words_by_syllables(words_data, target_syllables=4):
     groups = []
     current_group = []
     current_syllables = 0
+
+    replacement_words = ["cheeks", "crack", "fart", "dingus", "butt", "fatty", "piss"]
+    target_words = [w for w in words_data if w["word"].isalpha() and 12.0 > w["start"] > 8.0 and len(w["word"]) > 3]
+
+    if target_words:
+        replacement = random.choice(replacement_words)
+        target = random.choice(target_words)
+        print(f"[DEBUG] Replacing '{target['word']}' with '{replacement}' at {target['start']}s")
+        target["word"] = replacement
 
     for word_data in words_data:
         word = word_data["word"]
@@ -277,7 +285,7 @@ def center_crop_to_shorts(clip, target_width=886, target_height=1920):
     return crop_fx.apply(clip).resized((target_width, target_height))
 
 # ─── Main Logic ────────────────────────────────────────────────────────────────
-def assemble_video(audio_fn, title, subreddit, script_txt, _, use_split_videos=False):
+def assemble_video(audio_fn, title, subreddit, out, script_txt, _, use_split_videos=False):
     audio_path = os.path.join(AUDIO_DIR, audio_fn)
     ts_path = audio_path.replace(".mp3", ".json")
     audio = AudioFileClip(audio_path)
@@ -335,7 +343,7 @@ def assemble_video(audio_fn, title, subreddit, script_txt, _, use_split_videos=F
 
     # Load word timing data
     with open(ts_path) as jf:
-        words_data = json.load(jf)
+        words_data = fill_missing_timestamps(json.load(jf))
 
 
     text_clips = []
@@ -364,11 +372,40 @@ def assemble_video(audio_fn, title, subreddit, script_txt, _, use_split_videos=F
             text_clips.extend(clips)
 
     final = CompositeVideoClip([bg_video, *text_clips]).with_duration(audio_duration)
-    out = os.path.join(FINAL_DIR, os.path.splitext(audio_fn)[0] + ".mp4")
     final.write_videofile(out, codec="libx264", audio_codec="aac", fps=30)
 
-def generate_final_videos():
-    scripts_files = sorted(f for f in os.listdir(SCRIPT_DIR) if f.endswith(".json"))
+def fill_missing_timestamps(words_data):
+    for i, word_data in enumerate(words_data):
+        if "start" not in word_data or "end" not in word_data:
+            # Use previous word's end + 0.01 for start
+            prev_end = words_data[i - 1]["end"] + 0.01 if i > 0 and "end" in words_data[i - 1] else 0.0
+
+            # Use next word's start - 0.01 for end
+            if i + 1 < len(words_data) and "start" in words_data[i + 1]:
+                next_start = words_data[i + 1]["start"]
+                end = max(prev_end + 0.01, next_start - 0.01)
+            else:
+                end = prev_end + 0.5  # Fallback duration
+
+            word_data["start"] = prev_end
+            word_data["end"] = end
+
+    return words_data
+
+def generate_final_videos(use_split_videos=True):
+    scripts_files = sorted(
+        (f for f in os.listdir(SCRIPT_DIR) if f.endswith(".json") and f.startswith("scripts_")),
+        key=lambda x: x.split("_")[1] + x.split("_")[2].replace(".json", ""),
+        reverse=True
+    )
+
+    if not scripts_files:
+        print("[ERROR] No script files found.")
+        return
+
+    scripts_fp = os.path.join(SCRIPT_DIR, scripts_files[0])
+    print(f"[INFO] Using latest script file: {scripts_files[0]}")
+
     videos = sorted(f for f in os.listdir(VIDEO_DIR) if f.endswith(".mp4"))
 
     if not scripts_files or not videos:
@@ -389,7 +426,12 @@ def generate_final_videos():
         mp3 = f"{pid}.mp3"
         if os.path.exists(os.path.join(AUDIO_DIR, mp3)):
             print(f"[PROCESS] {pid}")
-            assemble_video(mp3, title, subreddit, text, bg_path, use_split_videos=False)  # set to False for single video
+            out = os.path.join(FINAL_DIR, "1", pid + "_1.mp4")
+            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=True)  # set to False for single video
+            out = os.path.join(FINAL_DIR, "2", pid + "_2.mp4")
+            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=True)  # set to False for single video
+            out = os.path.join(FINAL_DIR, "3", pid + "_3.mp4")
+            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=False)  # set to False for single video
         else:
             print(f"[SKIP] No audio for {pid}")
 
