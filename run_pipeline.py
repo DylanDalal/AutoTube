@@ -25,7 +25,7 @@ def main():
     # Step 1: Scrape new posts
     run_script('scrape_reddit.py')
 
-    # Step 2: Generate scripts from posts
+    # # Step 2: Generate scripts from posts
     run_script('generate_script.py')
 
     # Step 3: Convert scripts to audio
@@ -33,6 +33,9 @@ def main():
 
     # Step 4: Link to video and add subtitles
     run_script('assemble_video.py')
+
+    # Step 5: Upload Videos
+    run_script('autoschedule_and_upload.py')
 
     print("Pipeline completed.")
 
