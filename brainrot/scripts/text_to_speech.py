@@ -16,11 +16,10 @@ os.environ["PATH"] = "/opt/homebrew/bin:" + os.environ["PATH"]
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPTS_DIR = os.path.join(ROOT_DIR, 'data', 'scripts')
 AUDIO_DIR = os.path.join(ROOT_DIR, 'data', 'audio')
-MAX_VOICES = 10  # Number of scripts to process per run
+MAX_VOICES = 50  # Number of scripts to process per run
 USE_ELEVENLABS = True  # Toggle between ElevenLabs and gTTS
 
 # ElevenLabs settings
-
 ELEVENLABS_VOICE_ID = "pNInz6obpgDQGcFmaJgB"  # 'Adam' voice (default ID for Adam)
 
 # ─── Setup folders ─────────────────────────────────────────────────────────────
@@ -143,7 +142,11 @@ def make_subtitle_json(audio_path, original_text):
 
 # ─── Main voiceover generator ────────────────────────────────────────────────────
 def generate_voiceovers():
-    scripts_files = sorted(os.listdir(SCRIPTS_DIR))
+    scripts_files = sorted(
+        [f for f in os.listdir(SCRIPTS_DIR) if f.startswith('scripts_') and f.endswith('.json')],
+        reverse=True
+    )
+
     if not scripts_files:
         print("[ERROR] No scripts found to process.")
         return
@@ -162,27 +165,32 @@ def generate_voiceovers():
                 if count >= MAX_VOICES:
                     break
 
-                text = item.get("script", "").strip()
+                story = item.get("script", "").strip()
+                title = item.get("title", "").strip()
                 post_id = item.get("id", "unknown")
                 audio_filename = f"{post_id}.mp3"
 
-                if not text:
-                    print(f"[Skipping] Empty text for post {post_id}")
+                if not story or not title:
+                    print(f"[Skipping] Missing title or script for post {post_id}")
                     continue
 
+                # Combine title + story
+                full_text = f"{title.strip().rstrip('.')}. {story.strip()}"
+
                 if USE_ELEVENLABS:
-                    generate_voice_elevenlabs(text, audio_filename)
+                    generate_voice_elevenlabs(full_text, audio_filename)
                 else:
-                    generate_voice_gtts(text, audio_filename)
+                    generate_voice_gtts(full_text, audio_filename)
 
                 count += 1
                 speed_up_audio(os.path.join(AUDIO_DIR, audio_filename))
+
                 try:
-                    make_subtitle_json(os.path.join(AUDIO_DIR, audio_filename), text)
+                    make_subtitle_json(os.path.join(AUDIO_DIR, audio_filename), full_text)
                 except Exception as e:
                     print(f"Booboo {e}")
 
-                time.sleep(1.5)  # gentle delay
+                time.sleep(1.5)
 
             print(f"\n[Completed] {count} voiceovers generated.\n")
 
