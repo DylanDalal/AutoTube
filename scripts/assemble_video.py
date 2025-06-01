@@ -285,7 +285,7 @@ def center_crop_to_shorts(clip, target_width=886, target_height=1920):
     return crop_fx.apply(clip).resized((target_width, target_height))
 
 # ─── Main Logic ────────────────────────────────────────────────────────────────
-def assemble_video(audio_fn, title, subreddit, out, script_txt, _, use_split_videos=False):
+def assemble_video(audio_fn, title, subreddit, out, script_txt, _, use_split_videos=False, hide_title_card=False):
     audio_path = os.path.join(AUDIO_DIR, audio_fn)
     ts_path = audio_path.replace(".mp3", ".json")
     audio = AudioFileClip(audio_path)
@@ -345,18 +345,20 @@ def assemble_video(audio_fn, title, subreddit, out, script_txt, _, use_split_vid
     with open(ts_path) as jf:
         words_data = fill_missing_timestamps(json.load(jf))
 
-
     text_clips = []
 
-    # Create and add the title clip
-    title_clip, title_duration = create_imessage_style_title_clip(
-        subreddit=subreddit,
-        title_text=title,
-        words_data=words_data,
-        video_size=bg_video.size,
-        bg_image_path=os.path.join(ROOT_DIR, "data", "overlay", "imessage_popup.png")
-    )
-    text_clips.append(title_clip)
+    # Only add title card if not hidden
+    if not hide_title_card:
+        title_clip, title_duration = create_imessage_style_title_clip(
+            subreddit=subreddit,
+            title_text=title,
+            words_data=words_data,
+            video_size=bg_video.size,
+            bg_image_path=os.path.join(ROOT_DIR, "data", "overlay", "imessage_popup.png")
+        )
+        text_clips.append(title_clip)
+    else:
+        title_duration = 0
 
     for group in group_words_by_syllables(words_data):
         group_start = group[0]["start"]
@@ -427,11 +429,11 @@ def generate_final_videos(use_split_videos=True):
         if os.path.exists(os.path.join(AUDIO_DIR, mp3)):
             print(f"[PROCESS] {pid}")
             out = os.path.join(FINAL_DIR, "1", pid + "_1.mp4")
-            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=True)  # set to False for single video
+            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=True, hide_title_card=False)
             out = os.path.join(FINAL_DIR, "2", pid + "_2.mp4")
-            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=True)  # set to False for single video
+            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=True, hide_title_card=True)
             out = os.path.join(FINAL_DIR, "3", pid + "_3.mp4")
-            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=False)  # set to False for single video
+            assemble_video(mp3, title, subreddit, out, text, bg_path, use_split_videos=False, hide_title_card=False)
         else:
             print(f"[SKIP] No audio for {pid}")
 

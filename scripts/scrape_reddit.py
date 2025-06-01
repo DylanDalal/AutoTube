@@ -8,9 +8,11 @@ import random
 import config
 
 # Settings
-SUBREDDITS = ['aitah']
-MIN_UPVOTES = 200
-TARGET_TOTAL_NEW_POSTS = 20
+# subs to try = ["unpopularopinions", "AmIOverreacting", "Bridezillas", "badroommates", "RPGhorrorstories", "IDontWorkHereLady",
+#                "CasualConversation", "aitah", "NuclearRevenge", "MaliciousCompliance"]
+SUBREDDITS = ["NuclearRevenge", "aitah", "badroommates", "rpghorrorstories", "AmIOverreacting"]
+TARGET_TOTAL_NEW_POSTS = 50
+MIN_UPVOTES = 700
 INTERNAL_FETCH_LIMIT = 500  # Scan up to 100 per subreddit per attempt
 
 # Paths
@@ -67,14 +69,10 @@ def scrape_posts():
 
         for post in subreddit.top(time_filter='all', limit=INTERNAL_FETCH_LIMIT):
             if post.score < MIN_UPVOTES:
-                print(post.score)
                 print("not enough upvotes")
                 continue
             if post.stickied:
                 print("stickied")
-                continue
-            if post.over_18:
-                print("nsfw")
                 continue
             if post.id in existing_ids:
                 print("already found post")
