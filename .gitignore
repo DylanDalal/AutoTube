@@ -262,3 +262,8 @@ scripts/client_secrets.json
 token.pickle
 credentials.json
 /.venv
+.DS_Store
+/brainrot/data
+/brainrot/scripts/.idea
+/brainrot/scripts/__pycache__
+brainrot/scripts/client_secrets.json
