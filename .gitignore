@@ -261,3 +261,4 @@ data/videos/.DS_Store
 scripts/client_secrets.json
 token.pickle
 credentials.json
+/.venv
